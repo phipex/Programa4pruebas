@@ -1,0 +1,23 @@
+{
+  "name": "programa2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/mateopineda/programa-2-pruebas/"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "fs": "0.0.2",
+    "mocha": "^3.0.2"
+  }
+}
