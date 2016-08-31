@@ -21,7 +21,7 @@ class UtilMath {
         return sum;
     }
     
-      static sum(list) { // metodo par arealizar la sumatoria
+    static sum(list) { // metodo par arealizar la sumatoria
         if (!list) {
             throw 'Error empty list'
         }
@@ -114,6 +114,7 @@ class UtilMath {
         }
         return deviation;
     }
+
     static betaOne(list) {
         if (list.length == 0)
             return 0;
@@ -158,6 +159,54 @@ class UtilMath {
         var betaOne = UtilMath.betaOne(list)
         var betaZero = UtilMath.betaZero(list)
         return (betaZero + (betaOne * 386));
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////PROGRAMA 3////////////////////////////////////////////////////////////
+    static avg(list){
+        let total = 0;
+        if(typeof(list) !== 'object'){
+            throw 'list must be an array';
+        }
+        let num;
+        let len = 0;
+        for(num in list){
+            num = list[num];
+            if(isNaN(num)){
+                continue;
+            }
+            len++;
+            total += parseFloat(num);
+        }
+        if(list.length == 0 || len == 0){
+            throw 'List length must be bigger than 0';
+        }
+        return total/len;
+    }
+    static variance(list,avg){
+        let num, len = 0, total = 0;
+        for(num in list){
+            num = list[num];
+            if(isNaN(num)){
+                continue;
+            }
+            total += Math.pow(num-avg,2);
+            len++;
+        }
+        len--;
+        if(list.length == 0 || len == 0){
+            throw 'List length must be bigger than 1';
+        }
+        return total/len;
+    }
+    static standardDeviation(variance){
+        if(isNaN(variance)){
+            throw 'variance must be a number';
+        }
+        if(variance < 0){
+            throw 'variance must be a positive number';
+        }
+        return Math.sqrt(variance)
     }
 
 }
