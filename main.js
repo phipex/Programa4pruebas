@@ -1,21 +1,13 @@
 var File = require('./clases/File.js');
 var UtilMath = require('./clases/UtilMath')
 
-var firstFileLines = 300;
-var secondFileLines = 500;
+var linesArray = [6,6,8.3333,10.3333,12.3333,16.3333,20.5,21.75,22.25,23,28.3333,29,55.8];
+var lnLinesArray = UtilMath.lnArray(linesArray);
+console.log('The logaritmic values are ',lnLinesArray);
 
-console.log('firstFileLines: '+firstFileLines);
-console.log('secondFileLines: '+secondFileLines);
-
-var lnFirst = Math.log(firstFileLines);
-var lnSecond = Math.log(secondFileLines);
-
-console.log('lnFirst: '+lnFirst);
-console.log('lnSecond: '+lnSecond);
-
-var avg = UtilMath.avg([lnFirst ,lnSecond])
+var avg = UtilMath.avg(lnLinesArray)
 console.log('avg: '+avg);
-var variance = UtilMath.variance([lnFirst ,lnSecond],avg)
+var variance = UtilMath.variance(lnLinesArray,avg)
 console.log('variance: '+variance);
 var standardDeviation = UtilMath.standardDeviation(variance)
 console.log('standardDeviation: '+standardDeviation);

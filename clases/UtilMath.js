@@ -162,7 +162,21 @@ class UtilMath {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////PROGRAMA 3////////////////////////////////////////////////////////////
+    ////////////////////////PROGRAMA 3//////////////////////////////////////////////////////////////
+    static lnArray(arr){
+        if(typeof(arr) !== 'object'){
+            throw 'list must be an array';
+        }
+        let item,ln=[];
+        for(item in arr){
+            if(isNaN(arr[item])){
+                throw 'there is a not a number element';
+                return;
+            }
+            ln.push(Math.log(arr[item]));
+        }
+        return(ln)
+    }
     static avg(list){
         let total = 0;
         if(typeof(list) !== 'object'){
