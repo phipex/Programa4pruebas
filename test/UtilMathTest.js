@@ -1,4 +1,5 @@
 var expect = require("chai").expect;
+var assert = require("chai").assert;
 var Item = require('../clases/Item');
 var UtilMath = require('../clases/UtilMath');
 var LinkedList = require('../clases/LinkedList');
@@ -31,21 +32,17 @@ describe('UtilMath', function () {
             var list = new LinkedList()
             expect(UtilMath.stdDeviation(list)).to.equal(0);
         });
-        /*it('has to throw an exeption with no list', function () {
-            var list = null
-            expect(UtilMath.stdDeviation()).to.throw('Error empty list');
-        });*/
-        it('has to be 1 with the following elements [1,1]', function () {
-            var list = new LinkedList(1)
-            list.push(1);
-            expect(UtilMath.stdDeviation(list)).to.equal(0);
+        it('has to be 0 with the following elements [1,1]', function () {
+            var list = new LinkedList({ itemOne: 1, itemTwo: 3 })
+            list.push({ itemOne: 1, itemTwo: 3 });
+            expect(JSON.stringify(UtilMath.stdDeviation(list))).to.equal(JSON.stringify({ itemOne: 0, itemTwo: 0 }));
         });
-        it('has to be 3 with the following elements [3,3,3,3]', function () {
-            var list = new LinkedList(3)
-            list.push(3);
-            list.push(3);
-            list.push(3);
-            expect(UtilMath.stdDeviation(list)).to.equal(0);
+        it('has to be 0 with the following elements [3,3,3,3]', function () {
+            var list = new LinkedList({ itemOne: 3, itemTwo: 3 })
+            list.push({ itemOne: 3, itemTwo: 3 });
+            list.push({ itemOne: 3, itemTwo: 3 });
+            list.push({ itemOne: 3, itemTwo: 3 });
+            assert.equal(JSON.stringify(UtilMath.stdDeviation(list)),JSON.stringify({ itemOne: 0, itemTwo: 0 }),'fail');
         });
 
     });

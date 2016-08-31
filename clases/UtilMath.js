@@ -12,16 +12,16 @@ class UtilMath {
             return 0;
         }
         var sum = this.sum(list);
+        var obj = Object.keys(list.getValue(0));
         var meanList = this.sum(list)
-        var means = {
-            itemOne: meanList.itemOne/len,
-            itemTwo: meanList.itemTwo/len
-        };
 
-        return means;
+        for(var i = 0;i<obj.length;i++){ //se toman todos lo valores sumados de cada tipo en el object payload de la lista y se divide sobre la longitud
+            sum[obj[i]] = sum[obj[i]]/list.length
+        }
+        return sum;
     }
     
-      static sum(list) {
+      static sum(list) { // metodo par arealizar la sumatoria
         if (!list) {
             throw 'Error empty list'
         }
@@ -80,7 +80,7 @@ class UtilMath {
         }
         var i, j, product = 0;
         var count, obj;
-        obj = Object.keys(list.getValue(0));
+        obj = Object.keys(list.getValue(0)); // se asume que todos los elementos de la lista tengan la misma estructura
         count = obj.length;
         for (i = 0; i < len; i++) {
             for (j = 0; j < count; j += 2) {
@@ -92,14 +92,26 @@ class UtilMath {
     }
 
     static stdDeviation(list) {
+        if (list.length === 0)
+            return 0;
         var mean = UtilMath.mean(list)
         var len = list.length;
-        var i, deviation = 0;
+        var i = 0;
+        var deviation = {};
+        var obj = Object.keys(list.getValue(0));// se asume que todos los elementos de la lista tengan la misma estructura
+        var count = obj.length; // el numero de llaves diferente itemOne itemTwo
         for (i = 0; i < len; i++) {
-            deviation += Math.pow((parseFloat(list.getValue(i)) - mean), 2);
+            for (var j = 0; j < count; j++) {
+                if(!deviation[obj[j]]){
+                    deviation[obj[j]] = 0;
+                }
+                deviation[obj[j]] += Math.pow((parseFloat(list.getValue(i)[obj[j]]) - mean[obj[j]]), 2);
+            }
         }
-        deviation = parseFloat(deviation / (len - 1))
-        deviation = parseFloat(Math.sqrt(deviation));
+        for (var j = 0; j < count; j++) {
+            deviation[obj[j]] = parseFloat(deviation[obj[j]] / (len - 1));
+            deviation[obj[j]] = parseFloat(Math.sqrt(deviation[obj[j]]));
+        }
         return deviation;
     }
 

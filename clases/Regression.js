@@ -5,6 +5,8 @@ class Regression {
     }
     
     static betaOne(list) {
+        if (list.length == 0)
+            return 0;
         var sum = UtilMath.sum(list)
         var mean = UtilMath.mean(list) 
         var square = UtilMath.sumSquared(list)
@@ -15,6 +17,8 @@ class Regression {
     }
     
     static betaZero(list) {
+        if (list.length == 0)
+            return 0;
         var betaOne = Regression.betaOne(list)
         var mean = UtilMath.mean(list) 
         var betaZero = (mean.itemTwo - (betaOne * mean.itemOne)) 
@@ -22,6 +26,8 @@ class Regression {
     }
     
     static correlation(list) {
+        if (list.length == 0)
+            return 0;
         var sum = UtilMath.sum(list)
         var mean = UtilMath.mean(list) 
         var square = UtilMath.sumSquared(list)
