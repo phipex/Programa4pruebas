@@ -1,6 +1,10 @@
 var File = require('./clases/File.js');
 var UtilMath = require('./clases/UtilMath')
 
+
+var simpson = UtilMath.simpson(2.750,10,30);
+console.log('Esto da:.....................',simpson);
+
 var linesArray = [6,6,8.3333,10.3333,12.3333,16.3333,20.5,21.75,22.25,23,28.3333,29,55.8];
 var lnLinesArray = UtilMath.lnArray(linesArray);
 console.log('The logaritmic values are ',lnLinesArray);

@@ -222,6 +222,49 @@ class UtilMath {
         }
         return Math.sqrt(variance)
     }
+    
+    static gamma(x){
+        if(isNaN(x)){
+            throw 'x must be a number';
+        }
+        if(x <= 0){
+            throw 'x must be a positive number major than cero';
+        }
+        if(x ==1){
+            return 1;
+        }
+        if(x ==1/2){
+            return Math.sqrt(Math.PI);
+        }
+        return (x-1) * UtilMath.gamma(x-1)
+    }
+    
+    static F(x,dof){
+        var factorOne = (UtilMath.gamma((dof+1)/2))/((Math.pow(dof*Math.PI,1/2))*(UtilMath.gamma(dof/2)));
+        var factorTwo = Math.pow((1 + (Math.pow(x,2)/dof)),((-dof+1)/2));
+        return factorOne * factorTwo;
+    }
+    
+    static simpson(x,numseg, dof){
+        var w = x/numseg;
+        var value=0
+        var multiplier;
+        for (var i = 0; i <= numseg; i++) {
+            if(i%2==0){
+                multiplier=2
+            }
+            if(i%2!=0){
+                multiplier=4
+            }
+            if(i==0 || i==numseg){
+                multiplier=1
+            }
+            console.log("El valor de la F",i," es: ",(UtilMath.F(w*i,dof)))
+            value= value + ((w/3) * multiplier * UtilMath.F(w*i,dof))
+        }
+        return value
+    }
+
 
 }
 module.exports = UtilMath;
