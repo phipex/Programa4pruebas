@@ -259,7 +259,6 @@ class UtilMath {
             if(i==0 || i==numseg){
                 multiplier=1
             }
-            console.log("El valor de la F",i," es: ",(UtilMath.F(w*i,dof)))
             value= value + ((w/3) * multiplier * UtilMath.F(w*i,dof))
         }
         return value

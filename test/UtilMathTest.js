@@ -169,5 +169,30 @@ describe('UtilMath', function () {
         });
         
     });
+    
+    describe('gamma()', function () {
+        it('has to be 24 with x=5', function () {
+            expect(UtilMath.gamma(5)).to.equal(24);
+        });
+        it('has to be 1 with x=1', function () {
+            expect(UtilMath.gamma(1)).to.equal(1);
+        });
+        it('has to be sqrt(PI) with x=1/2', function () {
+            expect(UtilMath.gamma(1/2)).to.equal(Math.sqrt(Math.PI));
+        });
+        it('has to be 362880 with x=10', function () {
+            expect(UtilMath.gamma(10)).to.equal(362880);
+        });
+        it('has an string argument', function () {
+            expect(UtilMath.gamma("sdsada")).to.throw('x must be a number');
+        });
+        it('has value 0 in argument', function () {
+            expect(UtilMath.gamma(0)).to.throw('x must be a positive number major than cero');
+        });
+        it('has value negative in argument', function () {
+            expect(UtilMath.gamma(-1)).to.throw('x must be a positive number major than cero');
+        });
+    });
+    
 
 });
