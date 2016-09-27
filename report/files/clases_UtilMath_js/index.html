@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - clases\UtilMath.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>clases\UtilMath.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">60.50</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">269</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">133.85</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">2.73</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">&quot;use strict&quot;;
+class UtilMath {
+    constructor() {
+    }
+
+    static mean(list) {
+        if (!list) {
+            throw &#039;Error empty list&#039;
+        }
+        var len = list.length;
+        if (len === 0) {
+            return 0;
+        }
+        var sum = this.sum(list);
+        var obj = Object.keys(list.getValue(0));
+        var meanList = this.sum(list)
+
+        for(var i = 0;i&lt;obj.length;i++){ //se toman todos lo valores sumados de cada tipo en el object payload de la lista y se divide sobre la longitud
+            sum[obj[i]] = sum[obj[i]]/list.length
+        }
+        return sum;
+    }
+    
+    static sum(list) { // metodo par arealizar la sumatoria
+        if (!list) {
+            throw &#039;Error empty list&#039;
+        }
+        var len = list.length;
+        if (len === 0) {
+            return 0;
+        }
+        var i, j, sum = {};
+        var total = 0;
+        var count,obj;
+        obj = Object.keys(list.getValue(0));
+        count = obj.length;
+        for (j = 0; j &lt; count; j++) {
+            for (i = 0; i &lt; len; i++) {
+                if(!sum[obj[j]]){
+                    sum[obj[j]] = 0;
+                }
+                if(!isNaN(list.getValue(i)[obj[j]])){
+                    sum[obj[j]] += parseFloat(list.getValue(i)[obj[j]]);
+                }
+            }
+        }
+        return sum;
+    }
+    
+    
+    static sumSquared(list) {
+        if (!list) {
+            throw &#039;Error empty list&#039;
+        }
+        var len = list.length;
+        if (len === 0) {
+            return 0;
+        }
+        var i, j, obj, count, square = {}
+        obj = Object.keys(list.getValue(0));
+        count = obj.length;
+        for (j = 0; j &lt; count; j++) {
+            for (i = 0; i &lt; len; i++) {
+                if(!square[obj[j]]){
+                    square[obj[j]] = 0;
+                }
+                square[obj[j]] += Math.pow(parseFloat(list.getValue(i)[obj[j]]),2);
+            }
+        }
+        return square;
+    }
+    
+    static sumProduct(list) {
+        if (!list) {
+            throw &#039;Error empty list&#039;
+        }
+        var len = list.length;
+        if (len === 0) {
+            return 0;
+        }
+        var i, j, product = 0;
+        var count, obj;
+        obj = Object.keys(list.getValue(0)); // se asume que todos los elementos de la lista tengan la misma estructura
+        count = obj.length;
+        for (i = 0; i &lt; len; i++) {
+            for (j = 0; j &lt; count; j += 2) {
+                product += (parseFloat(list.getValue(i)[obj[j]]) * (parseFloat(list.getValue(i)[obj[j+1]])));
+            }
+            
+        }
+        return product;
+    }
+
+    static stdDeviation(list) {
+        if (list.length === 0)
+            return 0;
+        var mean = UtilMath.mean(list)
+        var len = list.length;
+        var i = 0;
+        var deviation = {};
+        var obj = Object.keys(list.getValue(0));// se asume que todos los elementos de la lista tengan la misma estructura
+        var count = obj.length; // el numero de llaves diferente itemOne itemTwo
+        for (i = 0; i &lt; len; i++) {
+            for (var j = 0; j &lt; count; j++) {
+                if(!deviation[obj[j]]){
+                    deviation[obj[j]] = 0;
+                }
+                deviation[obj[j]] += Math.pow((parseFloat(list.getValue(i)[obj[j]]) - mean[obj[j]]), 2);
+            }
+        }
+        for (var j = 0; j &lt; count; j++) {
+            deviation[obj[j]] = parseFloat(deviation[obj[j]] / (len - 1));
+            deviation[obj[j]] = parseFloat(Math.sqrt(deviation[obj[j]]));
+        }
+        return deviation;
+    }
+
+    static betaOne(list) {
+        if (list.length == 0)
+            return 0;
+        var sum = UtilMath.sum(list)
+        var mean = UtilMath.mean(list) 
+        var square = UtilMath.sumSquared(list)
+        var product = UtilMath.sumProduct(list); 
+        var len = list.length;
+        var betaOne = ((product - (parseFloat(len) * ( mean.itemOne * mean.itemTwo)))/((square.itemOne - (len * Math.pow(mean.itemOne, 2)))));
+        return betaOne;
+    }
+    
+    static betaZero(list) {
+        if (list.length == 0)
+            return 0;
+        var betaOne = UtilMath.betaOne(list)
+        var mean = UtilMath.mean(list) 
+        var betaZero = (mean.itemTwo - (betaOne * mean.itemOne)) 
+        return betaZero;
+    }
+    
+    static correlation(list) {
+        if (list.length == 0)
+            return 0;
+        var sum = UtilMath.sum(list)
+        var mean = UtilMath.mean(list) 
+        var square = UtilMath.sumSquared(list)
+        var product = UtilMath.sumProduct(list); 
+        var len = list.length;
+        var correlationNum = ((len * product) - (sum.itemOne * sum.itemTwo));
+        var correlationDen = Math.sqrt((len * (square.itemOne) - (Math.pow(sum.itemOne, 2))) * (len * (square.itemTwo) - (Math.pow(sum.itemTwo, 2))));
+        var correlation = correlationNum/correlationDen;
+        return correlation;
+    }
+    
+    static rSquared(list) {
+        var r = UtilMath.correlation(list)
+        return Math.pow(r, 2);
+    }
+    
+    static prediction(list) {
+        var betaOne = UtilMath.betaOne(list)
+        var betaZero = UtilMath.betaZero(list)
+        return (betaZero + (betaOne * 386));
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////PROGRAMA 3//////////////////////////////////////////////////////////////
+    static lnArray(arr){
+        if(typeof(arr) !== &#039;object&#039;){
+            throw &#039;list must be an array&#039;;
+        }
+        let item,ln=[];
+        for(item in arr){
+            if(isNaN(arr[item])){
+                throw &#039;there is a not a number element&#039;;
+                return;
+            }
+            ln.push(Math.log(arr[item]));
+        }
+        return(ln)
+    }
+    static avg(list){
+        let total = 0;
+        if(typeof(list) !== &#039;object&#039;){
+            throw &#039;list must be an array&#039;;
+        }
+        let num;
+        let len = 0;
+        for(num in list){
+            num = list[num];
+            if(isNaN(num)){
+                continue;
+            }
+            len++;
+            total += parseFloat(num);
+        }
+        if(list.length == 0 || len == 0){
+            throw &#039;List length must be bigger than 0&#039;;
+        }
+        return total/len;
+    }
+    static variance(list,avg){
+        let num, len = 0, total = 0;
+        for(num in list){
+            num = list[num];
+            if(isNaN(num)){
+                continue;
+            }
+            total += Math.pow(num-avg,2);
+            len++;
+        }
+        len--;
+        if(list.length == 0 || len == 0){
+            throw &#039;List length must be bigger than 1&#039;;
+        }
+        return total/len;
+    }
+    static standardDeviation(variance){
+        if(isNaN(variance)){
+            throw &#039;variance must be a number&#039;;
+        }
+        if(variance &lt; 0){
+            throw &#039;variance must be a positive number&#039;;
+        }
+        return Math.sqrt(variance)
+    }
+    
+    static gamma(x){
+        if(isNaN(x)){
+            throw &#039;x must be a number&#039;;
+        }
+        if(x &lt;= 0){
+            throw &#039;x must be a positive number major than cero&#039;;
+        }
+        if(x ==1){
+            return 1;
+        }
+        if(x ==1/2){
+            return Math.sqrt(Math.PI);
+        }
+        return (x-1) * UtilMath.gamma(x-1)
+    }
+    
+    static F(x,dof){
+        var factorOne = (UtilMath.gamma((dof+1)/2))/((Math.pow(dof*Math.PI,1/2))*(UtilMath.gamma(dof/2)));
+        var factorTwo = Math.pow((1 + (Math.pow(x,2)/dof)),((-dof+1)/2));
+        return factorOne * factorTwo;
+    }
+    
+    static simpson(x,numseg, dof){
+        var w = x/numseg;
+        var value=0
+        var multiplier;
+        for (var i = 0; i &lt;= numseg; i++) {
+            if(i%2==0){
+                multiplier=2
+            }
+            if(i%2!=0){
+                multiplier=4
+            }
+            if(i==0 || i==numseg){
+                multiplier=1
+            }
+            value= value + ((w/3) * multiplier * UtilMath.F(w*i,dof))
+        }
+        return value
+    }
+
+
+}
+module.exports = UtilMath;</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>
